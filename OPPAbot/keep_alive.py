@@ -8,7 +8,7 @@ def home():
     return "Hello. I am alive!"
 
 def run():
-  app.run(host='ftp.gear.host',port=8080)
+  app.run(host="193.122.125.86",port=1234)
 
 def keep_alive():
     t = Thread(target=run)
