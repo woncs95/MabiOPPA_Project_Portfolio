@@ -8,7 +8,7 @@ class MyWindow(QMainWindow):
         self.setWindowTitle("PyQt")
         #self.setWindowIcon(QIcon="icon.png")
 
-        btn = QPushButton("sex", self)
+        btn = QPushButton("say", self)
         btn.move(10, 10)
         btn.clicked.connect(self.btn_clicked)
 
