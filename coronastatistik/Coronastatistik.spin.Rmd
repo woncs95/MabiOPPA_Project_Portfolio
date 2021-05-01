@@ -1,3 +1,5 @@
+
+```{r }
 install.packages("readxl", repos="http://cran.r-project.org/")
 install.packages('tinytex', repos="http://cran.r-project.org/")
 tinytex::install_tinytex(force = TRUE)
@@ -72,5 +74,13 @@ for(i in 0:281){
 
 #Plot erstellen (Verhältnis zwischen cornabedingten Sterbefällen und Gesamtfällen)
 plot(as.numeric(c_2020)/as.numeric(d_2020)*100,xlab="Tage 13.03-20.12",ylab="Prozent(%)",type="l",col="red",main="Verhältnis Coronabedingte Sterbefälle/Gesamtfälle")
+```
 
 
+
+---
+title: Coronastatistik.R
+author: cswyon
+date: '2021-05-01'
+
+---
