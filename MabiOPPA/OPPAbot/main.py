@@ -134,4 +134,4 @@ async def show_message():
 
 #Loop listening the messages the whole time-----------------------------
 
-bot.run('ODI0Njg5Mzg5MjY2NTM0NDEx.YFzB2A.sPox0gW2pkh_3L7Rsn73cQRiJJQ')
+bot.run('TOKEN')
