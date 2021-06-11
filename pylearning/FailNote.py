@@ -1,4 +1,5 @@
 import re
+
 char=[]
 b=[56,60,96]
 a=[]
