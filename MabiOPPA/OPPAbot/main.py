@@ -2,34 +2,55 @@ import discord
 from discord.ext import commands,tasks
 import os, sys
 from os import system
-import keep_alive
 from dotenv import load_dotenv
 from threading import Thread
 import SocketServer
 import emojiset
 import time
 import asyncio
+import pprint
+import pandas as pd
+from openpyxl import load_workbook
 
 command_prefix='!'
 bot = commands.Bot(command_prefix= command_prefix, description='{0.user}',help_command=None)
-report_channel={'run_counter':'','recruitment':'','roster':''} ##init dic
+#guild_id={'Magus':'758433284131782656','MabiOPPA':'813416177861656596','SukjaTest':'844890188341051424'}
+#MabiOPPA="<Guild id=813416177861656596 name='MabiOPPA' shard_id=None chunked=False member_count=8>"
+#SukjaTest="<Guild id=844890188341051424 name='Sukja Test' shard_id=None chunked=False member_count=2>"
+
+#report_channel1={'run_counter':'','recruitment':'','roster':''}
+#report_channel2={'run_counter':'','recruitment':'','roster':''}
+#report_channel3={'run_counter':'','recruitment':'','roster':''}     ##init dic
+guild_report={}
+report_channel={}
+run_count = report_channel['run_counter']
+#text_channel_dic = {}
+guild_data = {}
 
 
-@bot.command()
-async def get_txtchannels(ctx):
-    text_channel_dic={}
-    if len(list(text_channel_dic.keys()))==0:
-        for channel in ctx.message.guild.channels:
-            if str(channel.type)=="text":
-                text_channel_dic[channel.name]=channel
-        return text_channel_dic
-    else:
-        return text_channel_dic
+@bot.command() #txtchannel guild
+async def get_guild_data(ctx):
+    text_channel_dic = {}
+    guild_txtchannel = {}
+    guild = ctx.message.guild
+
+
+    for channel in ctx.message.guild.channels:
+        if str(channel.type) == "text":
+            text_channel_dic[channel.name] = channel
+    guild_txtchannel[str(guild.name)] = text_channel_dic
+    guild_data[str(guild.name)] = guild
+    df1=pd.DataFrame(guild_txtchannel)
+    df2=pd.DataFrame(guild_data)
+    df1.to_excel('guild_txt.xlsx')
+    df2.to_excel('guild_data.xlsx')
+    return guild_data, guild_txtchannel #text_channel_dic
 
 
 @bot.command()
 async def hello(ctx):
     await ctx.send(emojiset.healing)
+
 
 @bot.command()
 async def help(ctx):
@@ -37,25 +58,30 @@ async def help(ctx):
     embed.add_field(name=f'{command_prefix}set', value='set this Textchannel as an announcement channel for reports', inline=True)
     await ctx.send(embed=embed)
 
-@bot.command()
-async def clear(ctx, amount=100):
-    await ctx.channel.purge(limit=amount)
 
 @bot.command()
 async def setcounter(ctx, *, text_channel):
-    text_channel_dic= await get_txtchannels(ctx)
+    guild = ctx.message.guild
+    _, guild_txtchannel = await get_guild_data(ctx)
+    text_channel_dic = guild_txtchannel[str(guild.name)]
+
     if text_channel in list(text_channel_dic.keys()):
     #if ctx.user == ctx.guild.owner: ##Definition ctx user??
-        embed = discord.Embed(title=None, description=f'Run Counter is set in {text_channel}',colour=discord.Colour.orange())
+        embed = discord.Embed(title='', description=f'Run Counter is set in {text_channel}',colour=discord.Colour.orange())
         await ctx.send(embed=embed)
         report_channel['run_counter'] = text_channel_dic[text_channel]
-        run_counter=report_channel['run_counter']
-        embed = discord.Embed(title=None, description=f'This channel is set as Run Counter',colour=discord.Colour.orange())
+        run_counter = report_channel['run_counter']
+        guild_report[guild.name] = report_channel
+        df = pd.DataFrame(guild_report)
+        df.to_excel('guild report.xlsx')
+        embed = discord.Embed(title='', description=f'This channel is set as Run Counter',colour=discord.Colour.orange())
         await run_counter.send(embed=embed)
+
     else:
         embed = discord.Embed(title='', description='You gave a wrong channel name. Try again.', colour=discord.Colour.orange())
         await ctx.send(embed=embed)
-        pass
+        #pass
+
 
 @bot.command()
 async def setrecruitment(ctx, *, text_channel):
@@ -89,23 +115,23 @@ async def on_ready():
     print('We have logged in as {0.user}'.format(bot))
 
 #Loop listening the messages the whole time-------------------------------
-@tasks.loop(seconds=5)
+@tasks.loop(seconds=2)
 async def show_message():
-    if report_channel['run_counter']=='':
-        print('no channel for message')
-
+    #if report_channel['run_counter']==''
     #if report_channel['run_counter']=='' and result!=False:
         #run_count = report_channel['run_counter'] ##send a dm to a user that he needs to define a run counter
 
-    if report_channel['run_counter']!='':
-        result = SocketServer.receive_message()
-        run_count=report_channel['run_counter']
-        if result:
-            await run_count.send(result)
+    #else:
+    result = SocketServer.receive_message()
+    print("server received message"+time.ctime(time.time()))
+    result = result.split('.') ##result is a list [type(runcounter,roster,recruitment),guildname,report]
+    guild_data=load_workbook('guild_data.xlsx')
+    if result[0] == "run_counter":
+        report_guild = guild_data[result[1]]
+        report_channel = guild_report[result[1]][result[0]]
+        await report_guild.report_channel.send(result[2])
+        print("sent runcounter in discord time" + time.ctime(time.time()))
+
 #Loop listening the messages the whole time-----------------------------
 
-keep_alive.keep_alive()
-load_dotenv('.env')
-bot.run(os.getenv('TOKEN'))
-
-
+bot.run('ODI0Njg5Mzg5MjY2NTM0NDEx.YFzB2A.sPox0gW2pkh_3L7Rsn73cQRiJJQ')
