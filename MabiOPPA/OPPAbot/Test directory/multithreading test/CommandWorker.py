@@ -24,7 +24,7 @@ class myThread(Thread, commands.Bot):
 
 
 command_prefix='!'
-token='ODI0Njg5Mzg5MjY2NTM0NDEx.YFzB2A.sPox0gW2pkh_3L7Rsn73cQRiJJQ'
+token=''
 bot = commands.Bot(command_prefix=command_prefix, description='{0.user}', help_command=None)
 
 

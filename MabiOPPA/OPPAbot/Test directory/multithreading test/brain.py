@@ -3,8 +3,6 @@ from CommandWorker import myThread
 from ServerWorker import *
 
 
-myThread()
-run_bot()
-run_server()
+# myThread()
 print(threading.active_count())
 print(threading.enumerate())

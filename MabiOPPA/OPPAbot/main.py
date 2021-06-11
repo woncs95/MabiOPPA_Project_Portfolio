@@ -1,7 +1,5 @@
 import discord
 from discord.ext import commands,tasks
-import os, sys
-from os import system
 from dotenv import load_dotenv
 from threading import Thread
 import SocketServer
