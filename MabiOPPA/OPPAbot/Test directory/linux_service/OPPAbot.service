@@ -1,0 +1,13 @@
+[Unit]
+Description=OPPAbot Service
+After=multi-user.target
+[Service]
+WorkingDirectory=/opt/OPPAbot
+ExecStart=/usr/bin/python3 /opt/OPPAbot/main.py
+User=ubuntu
+Type=idle
+Restart=always
+RestartSec=15
+RestartPreventExitStatus=0
+[Install]
+WantedBy=multi-user.target

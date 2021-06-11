@@ -1,0 +1,11 @@
+[Unit]
+Description=raspi wlan power save off service
+After=multi-user.target
+[Service]
+WorkingDirectory=/opt/OPPAbot
+ExecStart=/bin/bash /opt/OPPAbot/powersaveoff.sh start
+User=ubuntu
+Type=simple
+Restart=no
+[Install]
+WantedBy=multi-user.target
