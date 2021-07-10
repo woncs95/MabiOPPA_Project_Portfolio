@@ -1,8 +1,7 @@
 from scipy.optimize import least_squares
-from dev import main
 import matplotlib.pyplot as plt
 
-candle= main.get_candlestick("BTC_USDT", "1D")
+candle = {} # get_candlestick("BTC_USDT", "1D")
 x=candle["t"]
 ##local maximum
 y=list(map(float,candle["h"]))

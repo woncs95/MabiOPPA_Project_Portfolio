@@ -5,4 +5,4 @@
 The Algorithm uses two Trade Strategies: 
 Volatility Break Out and Bull Market Approximation.
 
-Please download "Auto Trade Demo.exe" and enter "demo" to see how it works
+Please download "TradeDemo.exe" and enter "demo" to see how it works
