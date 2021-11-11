@@ -1,8 +1,10 @@
-# Auto Trade Demo
+# DUMMY README
+content tbd
 
-### This is a demoversion of an Auto Trade Bot via Crypto.com API. 
-
-The Algorithm uses two Trade Strategies: 
-Volatility Break Out and Bull Market Approximation.
-
-Please download "TradeDemo.exe" and enter "demo" to see how it works
+# TODO
+- Refactor all References between files
+- Rethink Dataclasses for better coverage of UseCase
+- Rewrite Services from the Ground-up (Using Dataclasses)
+- Rewrite Database Layer (And data model, aswell)
+- UnIt-TeSts
+- Implement better logging

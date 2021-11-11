@@ -1,5 +1,7 @@
+install.packages('jsonlite', repos="http://cran.r-project.org/")
 install.packages("readxl", repos="http://cran.r-project.org/")
 install.packages('tinytex', repos="http://cran.r-project.org/")
+
 tinytex::install_tinytex(force = TRUE)
 library(tinytex)
 library(readxl)
