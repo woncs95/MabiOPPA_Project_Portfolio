@@ -7,17 +7,17 @@ library(tinytex)
 library(readxl)
 
 #Excel-Daten importieren 
-data_xls = read_excel("Sterbefällenvergleich 2016-2020 nach Tagen.xlsx", na="Na")
-data2_xls = read_excel("D - Überblick.xlsx", na="Na")
+data_xls = read_excel("Sterbefaellenvergleich 2016-2020 nach Tagen.xlsx", na="Na")
+data2_xls = read_excel("D-ueberblick.xlsx", na="Na")
 d_2020=as.numeric(data_xls[[2]][73:355])
 d_2019=as.numeric(data_xls[[3]][73:355])
 d_2018=as.numeric(data_xls[[4]][73:355])
 d_2017=as.numeric(data_xls[[5]][73:355])
 
 
-#Daten Sterbefälle zwischen 2017-2020
+#Daten Sterbefaelle zwischen 2017-2020
 farbe=c("red","black","darkgrey","grey")
-plot(d_2020,type="l",xlab="Tage vom 13.03 bis 22.12",ylab="Sterbefälle",col=farbe[1],ylim=c(1500,4000),main="Sterbefällevergleich in 2017-2020 und deren Durchschnitte")
+plot(d_2020,type="l",xlab="Tage vom 13.03 bis 22.12",ylab="Sterbefaelle",col=farbe[1],ylim=c(1500,4000),main="Sterbefaellevergleich in 2017-2020 und deren Durchschnitte")
 lines(d_2019,col=farbe[2])
 lines(d_2018,col=farbe[3])
 lines(d_2017,col=farbe[4])
@@ -45,7 +45,7 @@ lines(m_2017,col="grey")
 
   #Da es sich generell nicht um eine Normalverteilung handelt, nutze wilcox test
 
-#Beahuptung: Mittelwerte von Sterbefällte in 2019,2018,2017 sind größer als 2020
+#Beahuptung: Mittelwerte von Sterbefaellte in 2019,2018,2017 sind groesser als 2020
 wilcox.test(d_2020,d_2019,"greater",conf.level = 0.999)
 wilcox.test(d_2020,d_2018,"greater",conf.level = 0.999)
 wilcox.test(d_2020,d_2017,"greater",conf.level = 0.999)
@@ -58,11 +58,11 @@ for(i in 1:length(d_2019)){
 
 wilcox.test(d_2020,d_mean,"greater",conf.level=0.999)
 
-##mit p kleiner 0.001 sind die jeweiligen Mittelwerte der Sterbefälle von 
+##mit p kleiner 0.001 sind die jeweiligen Mittelwerte der Sterbefaelle von 
 ##2019,2018,2017 und der Mittelwert der drei Jahren signifikant kleiner als von 2020
 
 
-#Gesamte kumulative Sterbefälle in Deutschland mit Fehlerkorrektur
+#Gesamte kumulative Sterbefaelle in Deutschland mit Fehlerkorrektur
 c_2020=data2_xls[[4]][2:284]
 c_2020[4]=13
 c_2020[5]=13
@@ -72,7 +72,7 @@ for(i in 0:281){
   c_2020[283-i]=as.numeric(c_2020[283-i])-as.numeric(c_2020[282-i])
 }
 
-#Plot erstellen (Verhältnis zwischen cornabedingten Sterbefällen und Gesamtfällen)
+#Plot erstellen (Verhaeltnis zwischen cornabedingten Sterbefaellen und Gesamtfaellen)
 plot(as.numeric(c_2020)/as.numeric(d_2020)*100,xlab="Tage 13.03-20.12",ylab="Prozent(%)",type="l",col="red",main="Verhältnis Coronabedingte Sterbefälle/Gesamtfälle")
 
 
