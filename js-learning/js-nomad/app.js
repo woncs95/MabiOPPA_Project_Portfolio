@@ -1,199 +1,59 @@
-const a = 5;
-const b = 2;
-let myName = "changseup";
+// or
+// const loginInput = document.querySelector("#login-form input");
+// const loginButton = document.querySelector("#login-form button");
 
-//old method can't lock values like with const
-var c = 4;
+const loginForm = document.querySelector("#login-form");
+const loginInput = loginForm.querySelector("input");
+// const loginButton = loginForm.querySelector("button");
 
-console.log(a + b);
-console.log(myName);
+// function handleloginButtonClick() {
+//   const username = loginInput.value;
+//   if  username.length === 0) {
+//     console.log("You have to write your name first");
+//   }
+//   else if username.length > 15){
+//     alert("Your name is too long!");
+//   }
+//   else{
+//     console.log("hello", username);
+//   }
+// }
 
-myName = myName + "wyon";
-console.log(myName);
+// loginButton.addEventListener("click", handleloginButtonClick);
+// or use html for the limitations!!
 
-//boolean
-const amITall = false;
-const amIFat = null;
+// now we need to handle "submit event"!4
 
-//undefined
-let something;
-
-//data structure
-const daysOfWeek = ["mon", " tue", "wed", "thu", "fri", "sat"];
-
-//Get Item from Array
-console.log(daysOfWeek[0]);
-
-//Add one more day to the array
-daysOfWeek.push("sun");
-console.log(daysOfWeek);
-
-//object (rules different inside object)
-const player = {
-  name: "chang",
-  points: 10,
-  fat: true,
-};
-console.log(player);
-console.log(player.name);
-//you can change&add elements inside constant object
-player.points = 20;
-player.lastName = "potato";
-console.log(player);
-
-function sayHello(otherName) {
-  //use Backtick for template string!!
-  console.log(`Hello ${otherName}`);
+const greeting = document.querySelector("#greeting");
+const HIDDEN_CLASSNAME = "hidden";
+const USERNAME_KEY = "username";
+function handleloginSubmit(event) {
+  event.preventDefault(); //default behaviour of browser stops (i.e. not refreshing)
+  loginForm.classList.add(HIDDEN_CLASSNAME);
+  const username = loginInput.value;
+  localStorage.setItem(USERNAME_KEY, username);
+  paintGreetings(username);
 }
 
-sayHello("chang");
+function paintGreetings(username) {
+  greeting.innerText = `Hello ${username}`;
+  greeting.classList.remove(HIDDEN_CLASSNAME);
+}
 
-const calculator = {
-  add: function (a, b) {
-    return a + b;
-  },
-};
+const savedUsername = localStorage.getItem(USERNAME_KEY);
 
-const addedNr = calculator.add(2, 5);
-console.log(addedNr);
-
-//get an input value & change value type
-
-/*const age = parseInt(prompt("how old are you?"));
-
-if (isNaN(age)) {
-  alert("it's not a number");
-
-  //if and&or
-} else if ((age < 18 && age > 50) || false) {
-  console.log("you can't drink");
-  //age exactly 100
-} else if (age === 100) {
-  console.log("you are wise");
+if (savedUsername === null) {
+  loginForm.classList.remove(HIDDEN_CLASSNAME);
+  loginForm.addEventListener("submit", handleloginSubmit);
 } else {
-  console.log("you can drink");
-}*/
-
-//2. Interacting with Web
-
-//we can use HTMl in JS
-//document.title = html title
-//document.body etc..
-
-//grab id from document(HTML)
-const title = document.getElementById("title");
-console.log("getElementById: ");
-console.dir(title);
-title.innerText = "Got you!";
-console.dir(title.id);
-console.dir(title.className);
-console.dir(title.innerText);
-
-//grab class name from document
-const somethings = document.getElementsByClassName("something");
-console.log("getElementByClassName: ");
-console.log(somethings);
-
-//grab tag names
-const hellow = document.getElementsByTagName("h1");
-console.log("getElementByTagName: ");
-console.log(hellow);
-
-//search elements in css way (h1 inside of class with ".className")
-//only returns one element
-//if there are more classes with same names selector gives only first element
-const helloQuery = document.querySelector(".hellow h1");
-console.log("querySelector: ");
-console.log(helloQuery);
-console.dir(helloQuery);
-
-//selector gives all elements they match
-const helloQueryAll = document.querySelectorAll(".hellow h1");
-console.log("querySelectorAll: ");
-console.log(helloQueryAll);
-
-//both give the same thing
-const helloId = document.getElementById("hello");
-const helloQueryId = document.querySelector("#hello");
-
-////handling events(interacting if user does something)
-const styleChanger = document.querySelector("div.hellow h1");
-styleChanger.style.color = "red";
-console.log("styleChanger.style: ");
-console.dir(styleChanger.style);
-//listen click event
-function handleHellowClick() {
-  const colorContainer = ["blue", "red"];
-  switch (styleChanger.style.color) {
-    case "red":
-      styleChanger.style.color = colorContainer[0];
-      styleChanger.style.fontSize = "x-large";
-      break;
-    case "blue":
-      styleChanger.style.color = colorContainer[1];
-      styleChanger.style.fontSize = "large";
-      console.dir(styleChanger.style.fontSize);
-      break;
-  }
-  console.log("title was clicked!");
+  paintGreetings(savedUsername);
 }
-styleChanger.addEventListener("click", handleHellowClick);
+// const link = document.createElement("a");
 
-//advanced events listening
+// function handleLinkClick(event) {
+//   event.preventDefault();
+//   console.log(loginInput.value);
+// }
+// link.addEventListener("click", handleLinkClick);
 
-function handleMouseLeave() {
-  styleChanger.innerText = "Mouse is gone!";
-}
-//same as above
-styleChanger.onClick = handleHellowClick;
-styleChanger.addEventListener("mouseleave", handleMouseLeave);
-
-//addEventListener better
-//because you can remove it with .removeListener
-
-function handleWindowResize() {
-  document.body.style.backgroundColor = "tomato";
-}
-
-function handleWindowCopy() {
-  alert("copier!");
-}
-window.addEventListener("resize", handleWindowResize);
-window.addEventListener("copy", handleWindowCopy);
-
-//Connection Events
-
-function handleWindowOffline() {
-  alert("SOS no WIFI");
-}
-function handleWindowOnline() {
-  alert("WIFI is there again!");
-}
-window.addEventListener("offline", handleWindowOffline);
-window.addEventListener("online", handleWindowOnline);
-
-//CSS in JS(interacting js with css)
-const cssChanger = document.querySelector(".changedByCss h1");
-
-function handleTitleClick() {
-  const activeClass = "active";
-  if (cssChanger.className === activeClass) {
-    cssChanger.className = "changingH1";
-  } else {
-    cssChanger.className = activeClass;
-  }
-}
-
-//cssChanger.addEventListener("click", handleTitleClick);
-
-//class list
-function handleTitleClickinList() {
-  const activeClass = "active";
-  if (cssChanger.classList.contains(activeClass)) {
-    cssChanger.classList.remove(activeClass);
-  } else {
-    cssChanger.classList.add = activeClass;
-  }
-}
-
-cssChanger.addEventListener("click", handleTitleClickinList);
+//localStorage

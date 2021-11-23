@@ -1,14 +1,4 @@
-body {
-  background-color: grey;
+.hidden{
+    display: none;
+    transition: ease-in-out;
 }
-
-.changingH1 {
-  color: blue;
-  transition: color 0.5s ease-in-out;
-}
-
-.active {
-  color: tomato;
-  transition: all 0.3s ease-in-out;
-}
-
